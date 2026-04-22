@@ -32,9 +32,9 @@ const projectData = [
   },
   {
     title: "Toba Welder",
-    desc: "Sistem deteksi kualitas las menggunakan Computer Vision.",
+    desc: "Sistem Kwitansi dan Struk Pembayaran",
     github: "https://github.com/DavidMarioYS/Toba-Welder",
-    tags: ["Computer Vision", "AI"]
+    tags: ["Automation", "AI"]
   },
   {
     title: "CV Analysis n8n",
