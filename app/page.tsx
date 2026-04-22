@@ -2,42 +2,116 @@
 
 import React, { useRef, useState } from "react";
 
-// 1. Data Projek Lengkap (13 Projek)
-const projectData = [
-  { title: "SmrtPhn", desc: "AI Recommender untuk spesifikasi smartphone berdasarkan kebutuhan teknis.", github: "https://github.com/DavidMarioYS/SmartPhn", demo: "https://smart-phn-syqd.vercel.app/", tags: ["Local LLM", "Python"] },
-  { title: "DMNet-app", desc: "Networking utility tool untuk membantu profesional IT dan pelajar.", github: "https://github.com/DavidMarioYS/DMNet-app", demo: "https://dm-net-app.vercel.app/", tags: ["Networking", "Vercel"] },
-  { title: "Kai Chatbot", desc: "Asisten AI interaktif dengan antarmuka chatbot.", github: "https://github.com/DavidMarioYS/kai-chatbot", demo: "https://davidmarioys.github.io/kai-chatbot/", tags: ["Chatbot", "AI"] },
-  { title: "Jadwal Piket", desc: "Generator otomatis pembagian jadwal piket mingguan.", github: "https://github.com/DavidMarioYS/Jadwal-Piket-Mingguan-Generator", demo: "https://davidmarioys.github.io/Jadwal-Piket-Mingguan-Generator/", tags: ["Automation", "Web"] },
-  { title: "Toba Welder", desc: "Sistem deteksi kualitas las menggunakan Computer Vision.", github: "https://github.com/DavidMarioYS/Toba-Welder", tags: ["Computer Vision", "AI"] },
-  { title: "CV Analysis n8n", desc: "Otomasi scoring CV menggunakan n8n dan Google Gemini.", github: "https://github.com/DavidMarioYS/Automation-CV-Analysis-Scoring-Pipeline-n8n-Google-Gemini", tags: ["n8n", "Gemini AI"] },
-  { title: "Bottle Detection", desc: "Klasifikasi jenis botol (YOLOv8 & MobileNetV2).", github: "https://github.com/DavidMarioYS/Computer-Vision-Project-Deteksi-Klasifikasi-Jenis-Botol-Menggunakan-YOLOv8-dan-MobileNetV2", tags: ["YOLOv8", "Deep Learning"] },
-  { title: "Corrosion Thesis", desc: "Segmentasi citra untuk deteksi korosi pipa (Thesis).", github: "https://github.com/DavidMarioYS/Thesis-Project-Corrosion-Pipes-Image-Segmentation", tags: ["Segmentation", "Research"] },
-  { title: "KNN Laptop", desc: "Prediksi tipe laptop dengan algoritma KNN.", github: "https://github.com/DavidMarioYS/KNN-Prediksi-Type-Laptop", tags: ["Machine Learning", "Python"] },
-  { title: "Greedy THR", desc: "Implementasi algoritma Greedy untuk optimasi pembagian Tunjangan Hari Raya (THR).", github: "https://github.com/DavidMarioYS/Greedy-THR", tags: ["Algorithm", "Python"] },
-  { title: "Bangkit Project: NoD", desc: "Sistem rekomendasi Content-Based Filtering. Capstone project di Bangkit Academy.", github: "https://github.com/DavidMarioYS/Bangkit-Project-NoD", tags: ["Machine Learning", "TensorFlow"] },
-  { title: "PesoNa Sulawesi", desc: "Sistem rekomendasi destinasi wisata di Sulawesi sesuai preferensi user.", github: "https://github.com/DavidMarioYS/Projek-PesoNa-Sulawesi-Sistem-Rekomendasi-Wisata", tags: ["Recommender", "Web"] },
-  { title: "Heart Disease Classification", desc: "Projek klasifikasi penyakit jantung menggunakan algoritma Machine Learning.", github: "https://github.com/DavidMarioYS/Projek_Klasifikasi_Penyakit_Jantung", tags: ["Classification", "Data Science"] }
-];
+// ==========================================
+// KAMUS TERJEMAHAN (DICTIONARY)
+// ==========================================
+const dict = {
+  id: {
+    nav: { home: "Beranda", experience: "Pengalaman", projects: "Projek", skills: "Keahlian", contact: "Kontak" },
+    sectionExp: {
+      titleExp: "Pengalaman",
+      subExp: "Perjalanan karier dan magang profesional.",
+      titleEdu: "Pendidikan",
+      subEdu: "Latar belakang akademik dan sertifikasi.",
+      highlight: "Sorotan:",
+    },
+    sectionProj: {
+      title: "Projek Unggulan",
+      sub: "Koleksi 13 portofolio yang dapat digeser.",
+      btnDemo: "Live Demo",
+      btnRepo: "Repositori GitHub",
+    },
+    sectionSkills: {
+      title: "Keahlian Utama",
+      desc: "Kombinasi keahlian di bidang infrastruktur jaringan dan kecerdasan buatan, memungkinkan saya untuk membangun sistem end-to-end yang tangguh, otomatis, dan cerdas.",
+    },
+    footer: "Hak cipta dilindungi undang-undang.",
+    
+    experienceData: [
+      { role: "ERP AI Specialist", company: "Allure (Divisi AI ERP)", period: "Jun 2025 - Sekarang", desc: "Merancang ekosistem otomasi skala enterprise dengan arsitektur 3-Layer (Python/FastAPI) dan microservices n8n. Terintegrasi dengan Microsoft Dynamics 365 dan database manufaktur.", tags: ["FastAPI", "n8n", "Microservices", "ERP"] },
+      { role: "AI Engineer (Internship)", company: "PT Dago Engineering", period: "Agt 2024 - Des 2024", desc: "Membangun pipeline Machine Learning end-to-end untuk segmentasi citra. Mengembangkan model Mobile U-Net dan ResNet-50 hingga tahap deployment. Lulus dengan predikat 'Sangat Baik'.", tags: ["Computer Vision", "Deep Learning", "Streamlit"] },
+      { role: "Machine Learning Specialist", company: "Bangkit Academy", period: "Feb 2024 - Jul 2024", desc: "Mengembangkan sistem rekomendasi Content-Based Filtering dan mengonversi model H5 ke TFLite/TensorFlow.js. Meraih predikat Distinction Graduate.", tags: ["TensorFlow", "NLP", "Machine Learning"] },
+      { role: "IT Support (Internship)", company: "SMA Negeri 1 Cibinong", period: "Jan 2016 - Mei 2016", desc: "Memberikan dukungan teknis dan pemeliharaan komputer. Mengonfigurasi jaringan LAN/WLAN sekolah (TCP/IP) guna meningkatkan konektivitas.", tags: ["LAN-WAN", "TCP/IP", "Maintenance"] }
+    ],
+    educationData: [
+      { degree: "S1 Ilmu Komputer", institution: "Universitas Pendidikan Ganesha", period: "2021 - 2025", gpa: "IPK: 3.96/4.00", desc: "Fokus penelitian pada Deep Learning dan Computer Vision. Mengerjakan Tugas Akhir Analisis Komparatif Model Semantic Segmentation untuk deteksi korosi pipa industri." },
+      { degree: "Teknik Komputer dan Jaringan", institution: "SMK Negeri 1 Cibinong", period: "2018 - 2020", gpa: "Sertifikasi BNSP & Cisco", desc: "Membangun pondasi keahlian infrastruktur IT. Meraih Sertifikat Kompetensi BNSP KKNI Level II serta menyelesaikan sertifikasi Cisco CCNA." }
+    ],
+    projectData: [
+      { title: "SmrtPhn", desc: "AI Recommender untuk spesifikasi smartphone berdasarkan kebutuhan teknis.", github: "https://github.com/DavidMarioYS/SmartPhn", demo: "https://smart-phn-syqd.vercel.app/", tags: ["Local LLM", "Python"] },
+      { title: "DMNet-app", desc: "Networking utility tool untuk membantu profesional IT dan pelajar.", github: "https://github.com/DavidMarioYS/DMNet-app", demo: "https://dm-net-app.vercel.app/", tags: ["Networking", "Vercel"] },
+      { title: "Kai Chatbot", desc: "Asisten AI interaktif dengan antarmuka chatbot.", github: "https://github.com/DavidMarioYS/kai-chatbot", demo: "https://davidmarioys.github.io/kai-chatbot/", tags: ["Chatbot", "AI"] },
+      { title: "Jadwal Piket", desc: "Generator otomatis pembagian jadwal piket mingguan.", github: "https://github.com/DavidMarioYS/Jadwal-Piket-Mingguan-Generator", demo: "https://davidmarioys.github.io/Jadwal-Piket-Mingguan-Generator/", tags: ["Automation", "Web"] },
+      { title: "Toba Welder", desc: "Sistem otomatisasi pemberkasan untuk pembuatan kwitansi dan struk bukti pembayaran.", github: "https://github.com/DavidMarioYS/Toba-Welder", demo: "", tags: ["Automation", "AI"] },
+      { title: "CV Analysis n8n", desc: "Otomasi scoring CV menggunakan n8n dan Google Gemini.", github: "https://github.com/DavidMarioYS/Automation-CV-Analysis-Scoring-Pipeline-n8n-Google-Gemini", demo: "", tags: ["n8n", "Gemini AI"] },
+      { title: "Bottle Detection", desc: "Klasifikasi jenis botol (YOLOv8 & MobileNetV2).", github: "https://github.com/DavidMarioYS/Computer-Vision-Project-Deteksi-Klasifikasi-Jenis-Botol-Menggunakan-YOLOv8-dan-MobileNetV2", demo: "", tags: ["YOLOv8", "Deep Learning"] },
+      { title: "Corrosion Thesis", desc: "Segmentasi citra untuk deteksi korosi pipa (Thesis).", github: "https://github.com/DavidMarioYS/Thesis-Project-Corrosion-Pipes-Image-Segmentation", demo: "", tags: ["Segmentation", "Research"] },
+      { title: "KNN Laptop", desc: "Prediksi tipe laptop dengan algoritma KNN.", github: "https://github.com/DavidMarioYS/KNN-Prediksi-Type-Laptop", demo: "", tags: ["Machine Learning", "Python"] },
+      { title: "Greedy THR", desc: "Implementasi algoritma Greedy untuk optimasi pembagian Tunjangan Hari Raya (THR).", github: "https://github.com/DavidMarioYS/Greedy-THR", demo: "", tags: ["Algorithm", "Python"] },
+      { title: "Bangkit Project: NoD", desc: "Sistem rekomendasi Content-Based Filtering. Capstone project di Bangkit Academy.", github: "https://github.com/DavidMarioYS/Bangkit-Project-NoD", demo: "", tags: ["Machine Learning", "TensorFlow"] },
+      { title: "PesoNa Sulawesi", desc: "Sistem rekomendasi destinasi wisata di Sulawesi sesuai preferensi user.", github: "https://github.com/DavidMarioYS/Projek-PesoNa-Sulawesi-Sistem-Rekomendasi-Wisata", demo: "", tags: ["Recommender", "Web"] },
+      { title: "Heart Disease Classification", desc: "Projek klasifikasi penyakit jantung menggunakan algoritma Machine Learning.", github: "https://github.com/DavidMarioYS/Projek_Klasifikasi_Penyakit_Jantung", demo: "", tags: ["Classification", "Data Science"] }
+    ]
+  },
+  en: {
+    nav: { home: "Home", experience: "Experience", projects: "Projects", skills: "Skills", contact: "Let's Talk" },
+    sectionExp: {
+      titleExp: "Experience",
+      subExp: "Professional career and internship journey.",
+      titleEdu: "Education",
+      subEdu: "Academic background and certifications.",
+      highlight: "Highlight:",
+    },
+    sectionProj: {
+      title: "Featured Projects",
+      sub: "A collection of 13 swipeable portfolios.",
+      btnDemo: "Live Demo",
+      btnRepo: "GitHub Repository",
+    },
+    sectionSkills: {
+      title: "Core Expertise",
+      desc: "Combining expertise in network infrastructure and artificial intelligence, enabling me to build robust, automated, and intelligent end-to-end systems.",
+    },
+    footer: "All rights reserved.",
 
-// 2. Data Pengalaman
-const experienceData = [
-  { role: "ERP AI Specialist", company: "Allure (AI ERP Division)", period: "Jun 2025 - Sekarang", desc: "Merancang ekosistem otomasi skala enterprise dengan arsitektur 3-Layer (Python/FastAPI) dan microservices n8n. Terintegrasi dengan Microsoft Dynamics 365 dan database manufaktur.", tags: ["FastAPI", "n8n", "Microservices", "ERP"] },
-  { role: "AI Engineer (Internship)", company: "PT Dago Engineering", period: "Agt 2024 - Des 2024", desc: "Membangun pipeline Machine Learning end-to-end untuk segmentasi citra. Mengembangkan model Mobile U-Net dan ResNet-50 hingga tahap deployment. Lulus dengan predikat 'Sangat Baik'.", tags: ["Computer Vision", "Deep Learning", "Streamlit"] },
-  { role: "Machine Learning Specialist", company: "Bangkit Academy", period: "Feb 2024 - Jul 2024", desc: "Mengembangkan sistem rekomendasi Content-Based Filtering dan mengonversi model H5 ke TFLite/TensorFlow.js. Meraih predikat Distinction Graduate.", tags: ["TensorFlow", "NLP", "Machine Learning"] },
-  { role: "IT Support (Internship)", company: "SMA Negeri 1 Cibinong", period: "Jan 2016 - Mei 2016", desc: "Memberikan dukungan teknis dan pemeliharaan komputer. Mengonfigurasi jaringan LAN/WLAN sekolah (TCP/IP) guna meningkatkan konektivitas.", tags: ["LAN-WAN", "TCP/IP", "Maintenance"] }
-];
+    experienceData: [
+      { role: "ERP AI Specialist", company: "Allure (AI ERP Division)", period: "Jun 2025 - Present", desc: "Engineered an enterprise-scale automation ecosystem using a 3-Layer Architecture (Python/FastAPI) and n8n microservices. Integrated with Microsoft Dynamics 365 and manufacturing databases.", tags: ["FastAPI", "n8n", "Microservices", "ERP"] },
+      { role: "AI Engineer (Internship)", company: "PT Dago Engineering", period: "Aug 2024 - Dec 2024", desc: "Built an end-to-end Machine Learning pipeline for image segmentation. Developed Mobile U-Net and ResNet-50 models through to deployment. Graduated with an 'Outstanding' predicate.", tags: ["Computer Vision", "Deep Learning", "Streamlit"] },
+      { role: "Machine Learning Specialist", company: "Bangkit Academy", period: "Feb 2024 - Jul 2024", desc: "Developed a Content-Based Filtering recommendation system and converted H5 models to TFLite/TensorFlow.js. Achieved Distinction Graduate status.", tags: ["TensorFlow", "NLP", "Machine Learning"] },
+      { role: "IT Support (Internship)", company: "SMA Negeri 1 Cibinong", period: "Jan 2016 - May 2016", desc: "Provided technical support and computer maintenance. Configured school LAN/WLAN networks (TCP/IP) to optimize connectivity.", tags: ["LAN-WAN", "TCP/IP", "Maintenance"] }
+    ],
+    educationData: [
+      { degree: "B.Sc. in Computer Science", institution: "Universitas Pendidikan Ganesha", period: "2021 - 2025", gpa: "GPA: 3.96/4.00", desc: "Research focused on Deep Learning and Computer Vision. Completed Thesis on Comparative Analysis of Semantic Segmentation Models for industrial pipeline corrosion detection." },
+      { degree: "Computer and Network Engineering", institution: "SMK Negeri 1 Cibinong", period: "2018 - 2020", gpa: "BNSP & Cisco Certified", desc: "Built a strong foundation in IT infrastructure. Earned BNSP KKNI Level II Competency Certificate and completed Cisco CCNA certification." }
+    ],
+    projectData: [
+      { title: "SmrtPhn", desc: "AI Recommender for smartphone specifications based on technical requirements.", github: "https://github.com/DavidMarioYS/SmartPhn", demo: "https://smart-phn-syqd.vercel.app/", tags: ["Local LLM", "Python"] },
+      { title: "DMNet-app", desc: "Networking utility tool designed to assist IT professionals and students.", github: "https://github.com/DavidMarioYS/DMNet-app", demo: "https://dm-net-app.vercel.app/", tags: ["Networking", "Vercel"] },
+      { title: "Kai Chatbot", desc: "Interactive AI assistant with a seamless chatbot interface.", github: "https://github.com/DavidMarioYS/kai-chatbot", demo: "https://davidmarioys.github.io/kai-chatbot/", tags: ["Chatbot", "AI"] },
+      { title: "Jadwal Piket", desc: "Automated generator for efficient weekly duty scheduling.", github: "https://github.com/DavidMarioYS/Jadwal-Piket-Mingguan-Generator", demo: "https://davidmarioys.github.io/Jadwal-Piket-Mingguan-Generator/", tags: ["Automation", "Web"] },
+      { title: "Toba Welder", desc: "Automated document workflow system for generating receipts and payment proofs.", github: "https://github.com/DavidMarioYS/Toba-Welder", demo: "", tags: ["Automation", "AI"] },
+      { title: "CV Analysis n8n", desc: "Automated CV scoring pipeline using n8n and Google Gemini.", github: "https://github.com/DavidMarioYS/Automation-CV-Analysis-Scoring-Pipeline-n8n-Google-Gemini", demo: "", tags: ["n8n", "Gemini AI"] },
+      { title: "Bottle Detection", desc: "Bottle type classification using YOLOv8 & MobileNetV2.", github: "https://github.com/DavidMarioYS/Computer-Vision-Project-Deteksi-Klasifikasi-Jenis-Botol-Menggunakan-YOLOv8-dan-MobileNetV2", demo: "", tags: ["YOLOv8", "Deep Learning"] },
+      { title: "Corrosion Thesis", desc: "Image segmentation for pipeline corrosion detection (Thesis).", github: "https://github.com/DavidMarioYS/Thesis-Project-Corrosion-Pipes-Image-Segmentation", demo: "", tags: ["Segmentation", "Research"] },
+      { title: "KNN Laptop", desc: "Laptop type prediction using the KNN algorithm.", github: "https://github.com/DavidMarioYS/KNN-Prediksi-Type-Laptop", demo: "", tags: ["Machine Learning", "Python"] },
+      { title: "Greedy THR", desc: "Greedy algorithm implementation for optimizing holiday allowance distribution.", github: "https://github.com/DavidMarioYS/Greedy-THR", demo: "", tags: ["Algorithm", "Python"] },
+      { title: "Bangkit Project: NoD", desc: "Content-Based Filtering recommendation system. Bangkit Academy Capstone.", github: "https://github.com/DavidMarioYS/Bangkit-Project-NoD", demo: "", tags: ["Machine Learning", "TensorFlow"] },
+      { title: "PesoNa Sulawesi", desc: "Tourism destination recommender system based on user preferences.", github: "https://github.com/DavidMarioYS/Projek-PesoNa-Sulawesi-Sistem-Rekomendasi-Wisata", demo: "", tags: ["Recommender", "Web"] },
+      { title: "Heart Disease Classification", desc: "Heart disease classification project using Machine Learning algorithms.", github: "https://github.com/DavidMarioYS/Projek_Klasifikasi_Penyakit_Jantung", demo: "", tags: ["Classification", "Data Science"] }
+    ]
+  }
+};
 
-// 3. Data Pendidikan
-const educationData = [
-  { degree: "S1 Ilmu Komputer", institution: "Universitas Pendidikan Ganesha", period: "2021 - 2025", gpa: "GPA: 3.96/4.00", desc: "Fokus penelitian pada Deep Learning dan Computer Vision. Mengerjakan Tugas Akhir Analisis Komparatif Model Semantic Segmentation untuk deteksi korosi pipa industri." },
-  { degree: "Teknik Komputer dan Jaringan", institution: "SMK Negeri 1 Cibinong", period: "2018 - 2020", gpa: "Sertifikasi BNSP & Cisco", desc: "Membangun pondasi keahlian infrastruktur IT. Meraih Sertifikat Kompetensi BNSP KKNI Level II serta menyelesaikan sertifikasi Cisco CCNA." }
-];
 
 export default function Home() {
+  // State untuk Bahasa: Default ke 'id' (Bahasa Indonesia)
+  const [lang, setLang] = useState<"id" | "en">("id");
+  const t = dict[lang]; // Variabel penampung bahasa aktif
+
+  // State & Ref untuk Carousel
   const carouselRef = useRef<HTMLDivElement>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
 
-  // Fungsi menggeser carousel dengan panah
   const scroll = (direction: "left" | "right") => {
     if (carouselRef.current) {
       const scrollAmount = window.innerWidth > 768 ? 400 : 300;
@@ -48,12 +122,10 @@ export default function Home() {
     }
   };
 
-  // Fungsi mendeteksi progress bar saat di-swipe/scroll
   const handleScroll = () => {
     if (carouselRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
       const maxScrollLeft = scrollWidth - clientWidth;
-      
       if (maxScrollLeft > 0) {
         const progress = (scrollLeft / maxScrollLeft) * 100;
         setScrollProgress(progress);
@@ -71,26 +143,53 @@ export default function Home() {
             HANES<span className="text-emerald-500 animate-pulse">.</span>
           </div>
           <nav className="hidden md:flex gap-8 text-sm font-semibold text-stone-600">
-            <a href="#home" className="hover:text-emerald-600 hover:-translate-y-0.5 transition-all">Home</a>
-            <a href="#experience" className="hover:text-emerald-600 hover:-translate-y-0.5 transition-all">Experience</a>
-            <a href="#projects" className="hover:text-emerald-600 hover:-translate-y-0.5 transition-all">Projects</a>
-            <a href="#skills" className="hover:text-emerald-600 hover:-translate-y-0.5 transition-all">Skills</a>
+            {/* Teks navigasi ini AKAN berubah ketika tombol bahasa ditekan */}
+            <a href="#home" className="hover:text-emerald-600 hover:-translate-y-0.5 transition-all">{t.nav.home}</a>
+            <a href="#experience" className="hover:text-emerald-600 hover:-translate-y-0.5 transition-all">{t.nav.experience}</a>
+            <a href="#projects" className="hover:text-emerald-600 hover:-translate-y-0.5 transition-all">{t.nav.projects}</a>
+            <a href="#skills" className="hover:text-emerald-600 hover:-translate-y-0.5 transition-all">{t.nav.skills}</a>
           </nav>
-          <a href="mailto:davidmario484@gmail.com" className="border-2 border-emerald-500 text-emerald-600 px-6 py-2 rounded-full text-sm font-bold hover:bg-emerald-500 hover:text-white hover:shadow-lg hover:shadow-emerald-200/50 transition-all duration-300">
-            Let's Talk
-          </a>
+          
+          <div className="flex items-center gap-4">
+            
+            {/* TOGGLE BAHASA (Telah diperbarui dengan Switch Style yang Elegan & Reaktif) */}
+            <div className="flex items-center bg-stone-200/80 p-1 rounded-full border border-stone-300 shadow-inner">
+              <button 
+                type="button"
+                onClick={() => setLang("id")} 
+                className={`px-3 py-1.5 text-xs font-black rounded-full transition-all duration-300 ease-in-out cursor-pointer ${
+                  lang === "id" ? "bg-white text-emerald-600 shadow-sm" : "text-stone-400 hover:text-stone-600"
+                }`}
+              >
+                ID
+              </button>
+              <button 
+                type="button"
+                onClick={() => setLang("en")} 
+                className={`px-3 py-1.5 text-xs font-black rounded-full transition-all duration-300 ease-in-out cursor-pointer ${
+                  lang === "en" ? "bg-white text-emerald-600 shadow-sm" : "text-stone-400 hover:text-stone-600"
+                }`}
+              >
+                EN
+              </button>
+            </div>
+
+            <a href="mailto:davidmario484@gmail.com" className="hidden sm:block border-2 border-emerald-500 text-emerald-600 px-6 py-2 rounded-full text-sm font-bold hover:bg-emerald-500 hover:text-white hover:shadow-lg hover:shadow-emerald-200/50 transition-all duration-300">
+              {t.nav.contact}
+            </a>
+          </div>
         </div>
       </header>
 
       <main>
-        {/* HERO SECTION */}
+        {/* HERO SECTION (Teks Tetap Terkunci Bahasa Inggris agar Sesuai Estetika Gambar) */}
         <section id="home" className="relative pt-40 pb-20 flex flex-col justify-center min-h-svh bg-[url('/me.jpeg')] bg-cover bg-position-[80%_center] md:bg-center bg-no-repeat bg-scroll md:bg-fixed">
           <div className="absolute inset-0 bg-linear-to-r from-stone-50 via-stone-50/95 to-stone-50/10 z-0"></div>
           
           <div className="relative z-10 px-6 max-w-6xl mx-auto w-full">
             <div className="inline-block mb-4 px-3 py-1 bg-emerald-50 border border-emerald-100 rounded-full">
               <p className="text-emerald-600 font-bold tracking-widest text-xs uppercase flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span> Nice to connect with you
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span> NICE TO CONNECT WITH YOU.
               </p>
             </div>
             
@@ -113,16 +212,17 @@ export default function Home() {
           </div>
         </section>
 
-        {/* EXPERIENCE & EDUCATION SECTION */}
+        {/* EXPERIENCE & EDUCATION SECTION (Berubah Bahasa) */}
         <section id="experience" className="py-24 px-6 bg-stone-100/30 border-y border-stone-200/50">
           <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16">
             <div>
               <div className="mb-10">
-                <h2 className="text-3xl font-black text-stone-800 mb-2 tracking-tight">Experience</h2>
-                <div className="w-16 h-1.5 bg-emerald-500 rounded-full mb-4"></div>
+                <h2 className="text-3xl font-black text-stone-800 mb-2 tracking-tight">{t.sectionExp.titleExp}</h2>
+                <p className="text-stone-500 text-sm font-medium mb-4">{t.sectionExp.subExp}</p>
+                <div className="w-16 h-1.5 bg-emerald-500 rounded-full"></div>
               </div>
               <div className="border-l-2 border-stone-200 pl-8 space-y-10 ml-2">
-                {experienceData.map((exp, index) => (
+                {t.experienceData.map((exp, index) => (
                   <div key={index} className="relative group">
                     <span className="absolute -left-10.25 top-1.5 w-4 h-4 rounded-full bg-stone-200 border-4 border-stone-50 group-hover:bg-emerald-500 group-hover:scale-150 transition-all duration-500 shadow-sm"></span>
                     <h3 className="text-xl font-bold text-stone-800 leading-tight mb-1 group-hover:text-emerald-600 transition-colors">{exp.role}</h3>
@@ -142,11 +242,12 @@ export default function Home() {
 
             <div>
               <div className="mb-10">
-                <h2 className="text-3xl font-black text-stone-800 mb-2 tracking-tight">Education</h2>
-                <div className="w-16 h-1.5 bg-teal-500 rounded-full mb-4"></div>
+                <h2 className="text-3xl font-black text-stone-800 mb-2 tracking-tight">{t.sectionExp.titleEdu}</h2>
+                <p className="text-stone-500 text-sm font-medium mb-4">{t.sectionExp.subEdu}</p>
+                <div className="w-16 h-1.5 bg-teal-500 rounded-full"></div>
               </div>
               <div className="border-l-2 border-stone-200 pl-8 space-y-10 ml-2">
-                {educationData.map((edu, index) => (
+                {t.educationData.map((edu, index) => (
                   <div key={index} className="relative group">
                     <span className="absolute -left-10.25 top-1.5 w-4 h-4 rounded-full bg-stone-200 border-4 border-stone-50 group-hover:bg-teal-500 group-hover:scale-150 transition-all duration-500 shadow-sm"></span>
                     <h3 className="text-xl font-bold text-stone-800 leading-tight mb-1 group-hover:text-teal-600 transition-colors">{edu.degree}</h3>
@@ -156,7 +257,7 @@ export default function Home() {
                       <span className="bg-emerald-50 border border-emerald-100 text-emerald-600 text-[10px] px-2.5 py-1 rounded-md font-black uppercase tracking-wider">{edu.gpa}</span>
                     </div>
                     <p className="text-stone-600 text-sm leading-relaxed bg-white p-4 rounded-xl border border-stone-100 shadow-sm group-hover:shadow-md transition-shadow">
-                      <span className="font-bold text-stone-800">Highlight:</span> {edu.desc}
+                      <span className="font-bold text-stone-800">{t.sectionExp.highlight}</span> {edu.desc}
                     </p>
                   </div>
                 ))}
@@ -165,19 +266,16 @@ export default function Home() {
           </div>
         </section>
 
-        {/* PROJECTS SECTION (ANIMATED CAROUSEL) */}
+        {/* PROJECTS SECTION (ANIMATED CAROUSEL) - Berubah Bahasa */}
         <section id="projects" className="py-24 pl-6 bg-white border-b border-stone-200 overflow-hidden relative">
-          {/* Latar Belakang Dekoratif Abstrak */}
           <div className="absolute top-0 right-0 w-125 h-125 bg-linear-to-b from-emerald-50 to-transparent rounded-full blur-3xl -mr-64 -mt-32 opacity-60 z-0"></div>
 
           <div className="max-w-6xl mx-auto pr-6 relative z-10">
-            
-            {/* Header & Navigasi */}
             <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-6">
               <div>
-                <h2 className="text-3xl md:text-4xl font-black text-stone-800 mb-4 tracking-tight">Featured Projects</h2>
+                <h2 className="text-3xl md:text-4xl font-black text-stone-800 mb-4 tracking-tight">{t.sectionProj.title}</h2>
                 <div className="w-20 h-1.5 bg-emerald-500 rounded-full"></div>
-                <p className="text-stone-500 text-sm font-medium mt-4">Koleksi {projectData.length} portofolio yang dapat digeser.</p>
+                <p className="text-stone-500 text-sm font-medium mt-4">{t.sectionProj.sub}</p>
               </div>
               
               <div className="flex gap-3">
@@ -190,30 +288,24 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Container Carousel */}
             <div 
               ref={carouselRef} 
               onScroll={handleScroll}
               className="flex overflow-x-auto gap-6 pb-12 pt-4 snap-x snap-mandatory scroll-smooth no-scrollbar"
             >
-              {projectData.map((project, index) => (
+              {t.projectData.map((project, index) => (
                 <div 
                   key={index} 
                   className="snap-start shrink-0 w-75 sm:w-85 flex flex-col bg-white rounded-3xl border border-stone-200 hover:border-emerald-200 transition-all duration-500 hover:-translate-y-3 hover:shadow-[0_20px_40px_-15px_rgba(16,185,129,0.2)] group overflow-hidden"
                 >
-                  {/* Decorative Header Banner */}
                   <div className="h-28 bg-stone-100 group-hover:bg-linear-to-br group-hover:from-emerald-400 group-hover:to-teal-500 transition-all duration-700 relative flex items-center justify-center overflow-hidden">
-                    {/* Lingkaran Abstrak dalam Banner */}
                     <div className="absolute -right-6 -top-6 w-24 h-24 bg-white/20 rounded-full blur-xl group-hover:scale-150 transition-transform duration-700"></div>
                     <div className="absolute -left-4 -bottom-4 w-16 h-16 bg-white/10 rounded-full blur-lg group-hover:scale-150 transition-transform duration-700"></div>
-                    
-                    {/* Ikon Folder/Tech */}
                     <svg className="w-10 h-10 text-stone-300 group-hover:text-white/90 group-hover:scale-110 transition-all duration-500 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z"></path>
                     </svg>
                   </div>
 
-                  {/* Card Content */}
                   <div className="p-7 flex-1 bg-white relative">
                     <div className="flex flex-wrap gap-2 mb-4">
                       {project.tags.map((tag, tIndex) => (
@@ -230,42 +322,38 @@ export default function Home() {
                     </p>
                   </div>
 
-                  {/* Card Actions */}
                   <div className="p-7 pt-0 mt-auto flex flex-col gap-2 bg-white">
                     {project.demo && (
                       <a href={project.demo} target="_blank" rel="noopener noreferrer" className="w-full py-3 bg-stone-800 text-white text-xs font-bold uppercase tracking-widest rounded-xl text-center group-hover:bg-emerald-500 transition-all duration-300 shadow-md">
-                        Live Demo
+                        {t.sectionProj.btnDemo}
                       </a>
                     )}
                     <a href={project.github} target="_blank" rel="noopener noreferrer" className="w-full py-3 bg-transparent text-stone-600 text-xs font-bold uppercase tracking-widest rounded-xl text-center border-2 border-stone-200 hover:border-stone-800 hover:text-stone-800 transition-all duration-300">
-                      GitHub Repo
+                      {t.sectionProj.btnRepo}
                     </a>
                   </div>
                 </div>
               ))}
-              
               <div className="shrink-0 w-6"></div>
             </div>
 
-            {/* Scroll Progress Bar */}
             <div className="max-w-md mx-auto mt-2 h-1 bg-stone-200 rounded-full overflow-hidden">
               <div 
                 className="h-full bg-linear-to-r from-emerald-400 to-teal-500 rounded-full transition-all duration-300 ease-out"
                 style={{ width: `${scrollProgress}%` }}
               ></div>
             </div>
-
           </div>
         </section>
 
-        {/* SKILLS SECTION */}
+        {/* SKILLS SECTION (Berubah Bahasa) */}
         <section id="skills" className="py-24 px-6 bg-stone-50">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-16">
             <div className="md:w-1/3">
-              <h2 className="text-3xl md:text-4xl font-black text-stone-800 mb-4 tracking-tight">Core Expertise</h2>
+              <h2 className="text-3xl md:text-4xl font-black text-stone-800 mb-4 tracking-tight">{t.sectionSkills.title}</h2>
               <div className="w-20 h-1.5 bg-emerald-500 rounded-full mb-6"></div>
               <p className="text-stone-600 leading-relaxed font-medium">
-                Kombinasi keahlian di bidang infrastruktur jaringan dan kecerdasan buatan, memungkinkan saya untuk membangun sistem end-to-end yang tangguh, otomatis, dan cerdas.
+                {t.sectionSkills.desc}
               </p>
             </div>
             <div className="md:w-2/3 grid grid-cols-2 sm:grid-cols-3 gap-4">
@@ -282,7 +370,7 @@ export default function Home() {
 
       {/* FOOTER */}
       <footer className="py-8 text-center text-stone-500 text-sm border-t border-stone-200 bg-white">
-        <p className="font-medium">© {new Date().getFullYear()} David Mario Yohanes Samosir. All rights reserved.</p>
+        <p className="font-medium">© {new Date().getFullYear()} David Mario Yohanes Samosir. {t.footer}</p>
       </footer>
 
     </div>
