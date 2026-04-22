@@ -91,7 +91,7 @@ export default function Home() {
 
       <main>
         {/* ================= HERO SECTION (Overlay Stone Hangat) ================= */}
-        <section id="home" className="relative pt-40 pb-20 flex flex-col justify-center min-h-screen bg-[url('/me.jpeg')] bg-cover bg-center bg-no-repeat bg-fixed">
+        <section id="home" className="relative pt-40 pb-20 flex flex-col justify-center min-h-svh bg-[url('/me.jpeg')] bg-cover bg-position-[80%_center] md:bg-center bg-no-repeat bg-scroll md:bg-fixed">
           
           {/* Overlay Gradasi Pastel Hangat: dari warna stone (kayu pucat) ke transparan */}
           <div className="absolute inset-0 bg-linear-to-r from-stone-50 via-stone-50/90 to-transparent z-0"></div>
@@ -99,14 +99,14 @@ export default function Home() {
           {/* Konten Teks */}
           <div className="relative z-10 px-6 max-w-6xl mx-auto w-full">
             <p className="text-emerald-700 font-bold tracking-widest text-sm mb-4 uppercase">
-              Hello, World.
+              NICE TO CONNECT WITH YOU.
             </p>
             <h1 className="text-5xl md:text-7xl font-bold text-stone-800 leading-tight mb-6 tracking-tight">
               I build <span className="text-transparent bg-clip-text bg-linear-to-r from-emerald-600 to-teal-500">Intelligent</span> <br />
               Systems & Networks.
             </h1>
             <p className="max-w-xl text-lg text-stone-600 mb-10 leading-relaxed font-medium">
-              Seorang IT Network & AI Engineer. Saya berfokus pada arsitektur infrastruktur jaringan, merancang alur kerja otomasi tingkat lanjut, dan mengimplementasikan Large Language Models (LLMs) untuk solusi bisnis.
+              Building systems that are not only connected but also intelligent. Specializing in IT networking optimization, AI and machine learning implementation, and designing seamless automation architectures based on n8n and APIs.
             </p>
             
             <div className="flex gap-4">
