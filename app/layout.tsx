@@ -13,11 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Web",
+  title: "David's Portfolio", 
   description: "Experience and Skills Information",
-  icons: {
-    icon: "/app/logo.png",
-  },
+  // Properti icons dihapus karena Next.js otomatis membaca app/icon.png
 };
 
 export default function RootLayout({
